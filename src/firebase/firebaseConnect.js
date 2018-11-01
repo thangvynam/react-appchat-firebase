@@ -9,3 +9,8 @@ var config = {
 };
 const firebaseConnect=firebase.initializeApp(config);
 export default firebaseConnect ;
+
+var data = firebase.database().ref('users/');
+data.once('value').then(function(snapshot){
+    console.log(snapshot.val())
+})
