@@ -1,28 +1,41 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+
+import Login from './component/Login/Login';
+import firebaseconnect from './firebase/firebaseConnect';
+import Home from './component/Home';
+import { CHECK_USER } from './contsants/actionType';
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.authListener();
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      (this.props.appReducer.user? <Home/> : <Login/>)
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    appReducer: state.appReducer,
+  }
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    authListener() {
+      
+      firebaseconnect.auth().onAuthStateChanged((user) => {
+        if (user) {
+          dispatch({ type: CHECK_USER, user: user });
+        } else {
+          dispatch({ type: CHECK_USER, user: null });
+        }
+
+      })
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);

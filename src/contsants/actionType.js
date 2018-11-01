@@ -1,0 +1,2 @@
+export const USER_IS_LOGIN = 'USER_IS_LOGIN'
+export const CHECK_USER = 'CHANGE_IS_REDIRECT'
