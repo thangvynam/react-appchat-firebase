@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Login from './component/Login/Login';
 import firebaseconnect from './firebase/firebaseConnect';
-import Home from './component/Home';
+import HomeContainer from './component/HomeContainer/HomeContainer';
 import { CHECK_USER } from './contsants/actionType';
 
 class App extends Component {
@@ -13,7 +13,7 @@ class App extends Component {
   }
   render() {
     return (
-      (this.props.appReducer.user? <Home/> : <Login/>)
+      (this.props.appReducer.user? <HomeContainer/> : <Login/>)
     );
   }
 }
