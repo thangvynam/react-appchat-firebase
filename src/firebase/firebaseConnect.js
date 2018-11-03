@@ -10,7 +10,7 @@ var config = {
 const firebaseConnect=firebase.initializeApp(config);
 export default firebaseConnect ;
 
-var data = firebase.database().ref('users/');
+var data = firebase.database().ref('Users/');
 data.once('value').then(function(snapshot){
-    console.log(snapshot.val())
+    //console.log(snapshot.val())
 })

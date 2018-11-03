@@ -12,8 +12,9 @@ class App extends Component {
     this.props.authListener();
   }
   render() {
-    return (
+    return ( 
       (this.props.appReducer.user? <HomeContainer/> : <Login/>)
+      
     );
   }
 }
