@@ -13,7 +13,7 @@ class App extends Component {
   }
   render() {
     return ( 
-      (this.props.appReducer.user? <HomeContainer/> : <Login/>)
+      (this.props.appReducer.user !=null ? <HomeContainer/> : <Login/>)
       
     );
   }

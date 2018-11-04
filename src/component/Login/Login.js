@@ -45,7 +45,7 @@ class Login extends Component {
                                         <GoogleLogin
                                             clientId="927943389389-bsst1e00uq07kct4gnohbu6o49m0ism9.apps.googleusercontent.com"
                                             buttonText="Login"
-                                            onSuccess={(event) => this.props.onSuccess(event)}
+                                            onSuccess={(response) => this.props.onSuccess(response)}
                                             onFailure={this.onFailure}
                                         >
                                             {/* <FontAwesome
@@ -87,8 +87,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         handleInputChangePassword: (event) => {
             password = event.target.value;
         },
-        onSuccess(response) {
-            //console.log(response.profileObj);
+        onSuccess: (response) => {
+            debugger
+            console.log(response.profileObj);
             dispatch({ type: CHECK_USER, user: response.profileObj });
         }
 
