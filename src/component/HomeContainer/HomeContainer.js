@@ -7,6 +7,7 @@ import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import { compose } from 'redux'
 import MessageContainer from '../MessageContainer/MessageContainer'
 import ListUser from '../ListUser/ListUser'
+import SendMessage from '../SendMessage/SendMessage';
 const HomeContainer = ({ users,arrInfo, firebase }) => {
     const usersList = !isLoaded(users)
         ? 'Loading'
@@ -39,7 +40,6 @@ const HomeContainer = ({ users,arrInfo, firebase }) => {
                                 <img src={arrInfo.arrInfo.img} alt="avatar" />
                                 <div className="chat-about">
                                     <div className="chat-with">Chat with {arrInfo.arrInfo.username}</div>
-                                    <div className="chat-num-messages">already 1 902 messages</div>
                                 </div>
                                 <i className="fa fa-star" />
                             </div> {/* end chat-header */}
@@ -48,12 +48,7 @@ const HomeContainer = ({ users,arrInfo, firebase }) => {
                                     <MessageContainer/>
                                 </ul>
                             </div> {/* end chat-history */}
-                            <div className="chat-message clearfix">
-                                <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows={3} defaultValue={""} />
-                                <i className="fa fa-file-o" /> &nbsp;&nbsp;&nbsp;
-                                    <i className="fa fa-file-image-o" />
-                                <button>Send</button>
-                            </div> {/* end chat-message */}
+                           <SendMessage/>
                         </div> {/* end chat */}
                     </div>
                 </div>

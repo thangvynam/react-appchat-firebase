@@ -17,32 +17,33 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo }) => {
                                 if (arrInfo.arrInfo.username === object) {
 
                                     Object.entries(todos[key][object]).forEach(([key, value]) => { // determine which listchat 
-                                        if (key === appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))) {
+                                        let username = value.substring(0, value.indexOf(":")) 
+                                        let message = value.substring(value.indexOf(":")+1,value.lastIndexOf("-"))
+                                        let time  = value.substring(value.lastIndexOf("-")+1,value.length)
+                                        if (username === appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))) {
                                             messageListElement.push(
                                                 <li className="clearfix" style={{listStyleType:"none"}}>
                                                     <div className="message-data align-right">
-                                                        <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
-                                                    <span className="message-data-name">{key}</span> <i className="fa fa-circle me" />
+                                                        <span className="message-data-time">{time}</span> &nbsp; &nbsp;
+                                                    <span className="message-data-name">{username}</span> <i className="fa fa-circle me" />
                                                     </div>
                                                     <div className="message other-message float-right">
-                                                        {value}
+                                                        {message}
                                                     </div>
                                                 </li>)
                                         } else {
                                             messageListElement.push(
                                                 <li className="clearfix " style={{listStyleType:"none"}}>
                                                     <div className="message-data">
-                                                        <span className="message-data-name"><i className="fa fa-circle online" /> {key}</span>
-                                                        <span className="message-data-time">10:12 AM, Today</span>
+                                                        <span className="message-data-name"><i className="fa fa-circle online" /> {username}</span>
+                                                        <span className="message-data-time">{time}</span>
                                                     </div>
                                                     <div className="message my-message">
-                                                        {value}
+                                                        {message}
                                                     </div>
                                                 </li>
                                             )
                                         }
-
-
                                     });
                                 }
                             }

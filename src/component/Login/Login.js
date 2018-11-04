@@ -88,7 +88,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             password = event.target.value;
         },
         onSuccess: (response) => {
-            debugger
             console.log(response.profileObj);
             dispatch({ type: CHECK_USER, user: response.profileObj });
         }
