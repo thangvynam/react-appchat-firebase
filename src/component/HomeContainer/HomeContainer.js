@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import Avatar from 'react-avatar';
 
 //import firebaseConnect from '../../firebase/firebaseConnect';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
@@ -16,10 +16,10 @@ const HomeContainer = ({ users,arrInfo, firebase }) => {
             ? 'Todo list is empty'
             : Object.values(users).map(
                 (value, id) => (
-                    
                     <ListUser key={id} username={value.username} status={value.status} image={value.img} />
                 )
             )
+            console.log(arrInfo.arrInfo.image)
     return (
         
         <div>
@@ -40,7 +40,10 @@ const HomeContainer = ({ users,arrInfo, firebase }) => {
                     <div style={{float:"left"}}>
                         <div className="chat">
                             <div className="chat-header clearfix">
-                                <img src={arrInfo.arrInfo.img} alt="avatar" />
+                                <div>
+                                <Avatar size="70" src={arrInfo.arrInfo.image} />
+                                </div>
+                                
                                 <div className="chat-about">
                                     <div className="chat-with">Chat with {arrInfo.arrInfo.username}</div>
                                 </div>

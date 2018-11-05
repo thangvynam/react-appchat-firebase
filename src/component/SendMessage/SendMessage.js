@@ -13,6 +13,7 @@ const SendMessage = ({firebase,appReducer,arrInfo }) => {
         let curTime = new Date().toLocaleString()
         let editMessage = `${userFrom}:${message}-${curTime}`
         firebase.push(`Messagges/${userFrom}/${userTo}`, editMessage)
+        firebase.push(`Messagges/${userTo}/${userFrom}`, editMessage)
     } 
     const handleInputChange=(event)=> {
         message= event.target.value
