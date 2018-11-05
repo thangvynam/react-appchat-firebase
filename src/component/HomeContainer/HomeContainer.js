@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-//import * as firebase from 'firebase';
+
 
 //import firebaseConnect from '../../firebase/firebaseConnect';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
@@ -9,16 +9,19 @@ import MessageContainer from '../MessageContainer/MessageContainer'
 import ListUser from '../ListUser/ListUser'
 import SendMessage from '../SendMessage/SendMessage';
 const HomeContainer = ({ users,arrInfo, firebase }) => {
+    
     const usersList = !isLoaded(users)
         ? 'Loading'
         : isEmpty(users)
             ? 'Todo list is empty'
             : Object.values(users).map(
                 (value, id) => (
+                    
                     <ListUser key={id} username={value.username} status={value.status} image={value.img} />
                 )
             )
     return (
+        
         <div>
             
             <div className="container clearfix">
@@ -62,6 +65,7 @@ export default compose(
     ]),
     connect((state) => ({
         users: state.firebase.data.Users,
-        arrInfo:state.listUserReducer
+        arrInfo:state.listUserReducer,
+        
     }))
 )(HomeContainer)

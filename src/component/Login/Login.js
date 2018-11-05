@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
+import { compose } from 'redux'
+import { firebaseConnect } from 'react-redux-firebase'
 
 import { CHECK_USER } from '../../contsants/actionType';
-import firebaseConnect from '../../firebase/firebaseConnect';
+import firebaseConnectCustomize from '../../firebase/firebaseConnect';
 import './Login.css'
 
 class Login extends Component {
@@ -67,18 +69,29 @@ const mapStateToProps = (state, ownProps) => {
     return {
         email: state.email,
         password: state.password,
+        
     }
 }
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     let password = "";
     let email = "";
     return {
         login: (event) => {
             event.preventDefault();
-            firebaseConnect.auth().signInWithEmailAndPassword(email, password)
+            firebaseConnectCustomize.auth().signInWithEmailAndPassword(email,password)
                 .catch(function (error) {
                     var errorMessage = error.message;
                     console.log(errorMessage);
+                })
+                .then((user) => {  
+                   let username =user.user.email.substring(0, user.user.email.indexOf("@"))
+                    var userApp ={
+                        username : username,
+                        status : 'online',
+                        img : "https://www.drupal.org/files/issues/default-avatar.png"
+                    }
+                    ownProps.firebase.push('Users', userApp)
                 })
         },
         handleInputChangeEmail: (event) => {
@@ -94,4 +107,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default compose(
+    firebaseConnect(), 
+    connect(mapStateToProps, mapDispatchToProps))(Login)
+//export default withFirebase(Login)

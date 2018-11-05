@@ -6,22 +6,32 @@ import './ListUser.scss'
 class ListUser extends Component {
 
     render() {
-       
-        return (
-            <li className="clearfix" style={{listStyleType:"none",cursor: "pointer" }} onClick={this.props.clickItemUser}>
-                <img src={this.props.image} alt="avatar" />
-                <div className="about">
-                    <div className="name">{this.props.username}</div>
-                    <div className="status">
-                        {
-                            this.props.status==="online"?(<i className="fa fa-circle online" />):<i className="fa fa-circle offline" />
-                        }
-                        {this.props.status}
+       if(this.props.appReducer.user.email.substring(0, this.props.appReducer.user.email.indexOf("@")) !=this.props.username )
+            return (
+                <li className="clearfix" style={{listStyleType:"none",cursor: "pointer" }} onClick={this.props.clickItemUser}>
+                    <img src={this.props.image} alt="avatar" />
+                    <div className="about">
+                        <div className="name">{this.props.username}</div>
+                        <div className="status">
+                            {
+                                this.props.status==="online"?(<i className="fa fa-circle online" />):<i className="fa fa-circle offline" />
+                            }
+                            {this.props.status}
+                        </div>
                     </div>
-                </div>
-                <hr/>
-            </li>
-        );
+                    <hr/>
+                </li>
+            );
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+}
+const mapStateToProps = (state, ownProps) => {
+    return {
+        appReducer: state.appReducer
     }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -33,4 +43,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(undefined, mapDispatchToProps)(ListUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ListUser);

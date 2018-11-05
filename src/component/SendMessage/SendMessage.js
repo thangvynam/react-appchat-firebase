@@ -9,6 +9,7 @@ const SendMessage = ({firebase,appReducer,arrInfo }) => {
     let message =''
     const pushSample = () =>{
         //var arr= [];
+        
         let curTime = new Date().toLocaleString()
         let editMessage = `${userFrom}:${message}-${curTime}`
         firebase.push(`Messagges/${userFrom}/${userTo}`, editMessage)
