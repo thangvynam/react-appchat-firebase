@@ -1,6 +1,6 @@
 import {CHECK_USER} from '../contsants/actionType'
 const appInitialState = {
-    user:null
+    user:null,
 }
 const appReducer = (state = appInitialState, action) => {
     switch (action.type) {

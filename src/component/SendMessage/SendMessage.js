@@ -8,8 +8,6 @@ const SendMessage = ({firebase,appReducer,arrInfo }) => {
     let userTo = arrInfo.arrInfo.username
     let message =''
     const pushSample = () =>{
-        //var arr= [];
-        
         let curTime = new Date().toLocaleString()
         let editMessage = `${userFrom}:${message}-${curTime}`
         firebase.push(`Messagges/${userFrom}/${userTo}`, editMessage)
@@ -25,12 +23,10 @@ const SendMessage = ({firebase,appReducer,arrInfo }) => {
         </div>
     )
 }
-
 export default compose(
-    withFirebase, // or firebaseConnect()
+    withFirebase, 
     connect((state) => ({
         appReducer: state.appReducer,
         arrInfo: state.listUserReducer
-      // profile: state.firebase.profile // load profile
     }))
   )(SendMessage)

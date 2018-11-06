@@ -9,7 +9,6 @@ class ListUser extends Component {
        if(this.props.appReducer.user.email.substring(0, this.props.appReducer.user.email.indexOf("@")) !== this.props.username )
             return (
                 <li className="clearfix" style={{listStyleType:"none",cursor: "pointer" }} onClick={this.props.clickItemUser}>
-                    {/* <img src={this.props.image} alt="avatar" /> */}
                     <div style={{float:"left"}} >
                         <Avatar size="70" src={this.props.image} /> 
                     </div>

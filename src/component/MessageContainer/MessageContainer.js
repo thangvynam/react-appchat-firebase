@@ -15,14 +15,13 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo }) => {
                         Object.keys(todos[key]).map( // determine who you want to chat 
                             (object) => {
                                 if (arrInfo.arrInfo.username === object) {
-
                                     Object.entries(todos[key][object]).forEach(([key, value]) => { // determine which listchat 
                                         let username = value.substring(0, value.indexOf(":")) 
                                         let message = value.substring(value.indexOf(":")+1,value.lastIndexOf("-"))
                                         let time  = value.substring(value.lastIndexOf("-")+1,value.length)
                                         if (username === appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))) {
                                             messageListElement.push(
-                                                <li className="clearfix" style={{listStyleType:"none"}}>
+                                                <li  className="clearfix" style={{listStyleType:"none"}}>
                                                     <div className="message-data align-right">
                                                         <span className="message-data-time">{time}</span> &nbsp; &nbsp;
                                                     <span className="message-data-name">{username}</span> <i className="fa fa-circle me" />
@@ -50,8 +49,8 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo }) => {
                         )
                     }
                 }
-            )
 
+            )
     return (
         <div>
             {messageListElement}

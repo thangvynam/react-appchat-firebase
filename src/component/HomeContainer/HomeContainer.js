@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Avatar from 'react-avatar';
-
+import * as firebase from 'firebase';
 
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -10,7 +10,6 @@ import ListUser from '../ListUser/ListUser'
 import SendMessage from '../SendMessage/SendMessage';
 import Navbar from '../Navbar/Navbar';
 const HomeContainer = ({ users, arrInfo, appReducer }) => {
-
     const usersList = !isLoaded(users)
         ? 'Loading'
         : isEmpty(users)
@@ -21,7 +20,6 @@ const HomeContainer = ({ users, arrInfo, appReducer }) => {
                 )
             )
     return (
-
         <div>
             <div className="row">
                 <Navbar username={appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))}/>
@@ -67,7 +65,8 @@ const HomeContainer = ({ users, arrInfo, appReducer }) => {
 }
 export default compose(
     firebaseConnect([
-        'Users/'
+       
+        { path:  'Users/',queryParams: [ 'orderByPriority' ]}
     ]),
     connect((state) => ({
         users: state.firebase.data.Users,

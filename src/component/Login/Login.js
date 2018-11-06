@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { GoogleLogin } from 'react-google-login';
 import { compose } from 'redux'
 import { firebaseConnect } from 'react-redux-firebase'
+import firebase from 'firebase';
 
-import { CHECK_USER } from '../../contsants/actionType';
 import firebaseConnectCustomize from '../../firebase/firebaseConnect';
+import {googleProvider} from '../../firebase/firebaseConnect';
+
 import './Login.css'
 
 class Login extends Component {
     constructor(props) {
-        super(props)
-        this.onFailure = this.onFailure.bind(this);
-        //this.onSuccess = this.onSuccess.bind(this);
+        super(props) 
     }
-    onFailure(response) {
-        console.log(response)
-    }
-
     render() {
         return (
             <div className="container">
@@ -42,19 +37,10 @@ class Login extends Component {
                                         <input type="text" name="password" id="password" className="form-control" onChange={(event) => this.props.handleInputChangePassword(event)} />
                                     </div>
                                     <div className="form-group">
-                                        <input type="submit" name="submit" className="btn btn-info btn-md" defaultValue="submit" onClick={this.props.login} />
-                                        <span> </span>
-                                        <GoogleLogin
-                                            clientId="927943389389-bsst1e00uq07kct4gnohbu6o49m0ism9.apps.googleusercontent.com"
-                                            buttonText="Login"
-                                            onSuccess={(response) => this.props.onSuccess(response)}
-                                            onFailure={this.onFailure}
-                                        >
-                                            {/* <FontAwesome
-                                                name='google'
-                                            /> */}
-                                            <span> Login with Google</span>
-                                        </GoogleLogin>
+                                        <input type="submit" name="submit" className="btn btn-info btn-md" value="submit" onClick={this.props.login} />
+                                        
+                                        <input type="submit" name="submit1" className="btn btn-info btn-md" value="Google Login" onClick={this.props.googleLogin} style={{backgroundColor:"red"}}/>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +55,6 @@ const mapStateToProps = (state, ownProps) => {
     return {
         email: state.email,
         password: state.password,
-        
     }
 }
 
@@ -91,7 +76,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                         status : 'online',
                         img : "https://www.drupal.org/files/issues/default-avatar.png"
                     }
-                    ownProps.firebase.push('Users', userApp)
+                    ownProps.firebase.set(`Users/${username}`, userApp)
                 })
         },
         handleInputChangeEmail: (event) => {
@@ -100,14 +85,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         handleInputChangePassword: (event) => {
             password = event.target.value;
         },
-        onSuccess: (response) => {
-            console.log(response.profileObj);
-            dispatch({ type: CHECK_USER, user: response.profileObj });
+        googleLogin:()=>{
+            
+            firebase.auth().signInWithPopup(googleProvider).then(function(result) {
+                let username =result.user.email.substring(0, result.user.email.indexOf("@"))
+                    var userApp ={
+                        username : username,
+                        status : 'online',
+                        img : "https://www.drupal.org/files/issues/default-avatar.png"
+                    }
+                    ownProps.firebase.set(`Users/${username}`, userApp)
+              }).catch(function(error) {
+                var errorMessage = error.message;
+                console.log(errorMessage)
+              });
         }
-
     }
 }
 export default compose(
     firebaseConnect(), 
     connect(mapStateToProps, mapDispatchToProps))(Login)
-//export default withFirebase(Login)
+
