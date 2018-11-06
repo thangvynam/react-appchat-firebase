@@ -2,14 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Avatar from 'react-avatar';
 
-//import firebaseConnect from '../../firebase/firebaseConnect';
+
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import { compose } from 'redux'
 import MessageContainer from '../MessageContainer/MessageContainer'
 import ListUser from '../ListUser/ListUser'
 import SendMessage from '../SendMessage/SendMessage';
-const HomeContainer = ({ users,arrInfo, firebase }) => {
-    
+import Navbar from '../Navbar/Navbar';
+const HomeContainer = ({ users, arrInfo, appReducer }) => {
+
     const usersList = !isLoaded(users)
         ? 'Loading'
         : isEmpty(users)
@@ -19,14 +20,16 @@ const HomeContainer = ({ users,arrInfo, firebase }) => {
                     <ListUser key={id} username={value.username} status={value.status} image={value.img} />
                 )
             )
-            console.log(arrInfo.arrInfo.image)
     return (
-        
+
         <div>
-            
+            <div className="row">
+                <Navbar username={appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))}/>
+            </div>
+            <br/>
             <div className="container clearfix">
                 <div className="row">
-                    <div  style={{float:"left"}}>
+                    <div style={{ float: "left" }}>
                         <div className="people-list" id="people-list">
                             <div className="search">
                                 <input type="text" placeholder="search" />
@@ -37,13 +40,12 @@ const HomeContainer = ({ users,arrInfo, firebase }) => {
                             </ul>
                         </div>
                     </div>
-                    <div style={{float:"left"}}>
+                    <div style={{ float: "left" }}>
                         <div className="chat">
                             <div className="chat-header clearfix">
                                 <div>
-                                <Avatar size="70" src={arrInfo.arrInfo.image} />
+                                    <Avatar size="70" src={arrInfo.arrInfo.image} />
                                 </div>
-                                
                                 <div className="chat-about">
                                     <div className="chat-with">Chat with {arrInfo.arrInfo.username}</div>
                                 </div>
@@ -51,12 +53,13 @@ const HomeContainer = ({ users,arrInfo, firebase }) => {
                             </div> {/* end chat-header */}
                             <div className="chat-history">
                                 <ul>
-                                    <MessageContainer/>
+                                    <MessageContainer />
                                 </ul>
                             </div> {/* end chat-history */}
-                           <SendMessage/>
+                            <SendMessage />
                         </div> {/* end chat */}
                     </div>
+
                 </div>
             </div>
         </div>
@@ -68,7 +71,7 @@ export default compose(
     ]),
     connect((state) => ({
         users: state.firebase.data.Users,
-        arrInfo:state.listUserReducer,
-        
+        arrInfo: state.listUserReducer,
+        appReducer: state.appReducer
     }))
 )(HomeContainer)
