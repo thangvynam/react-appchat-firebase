@@ -25,23 +25,12 @@ class Navbar extends Component {
                         <div>
                             <label className="mr-2 text-white">{this.props.username}</label>
                             <button className="btn btn-dark" onClick={this.signOut}>Sign Out</button>
-
                         </div>
                     </nav>
                 </div>
             );
-        
-        
-    }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        logOutGoogle: () => {
-            dispatch({ type: CHECK_USER, user: null  });
-        }
     }
 }
 export default compose(
     firebaseConnect(), 
-    connect(undefined, mapDispatchToProps))(Navbar)
+    connect(undefined, undefined))(Navbar)

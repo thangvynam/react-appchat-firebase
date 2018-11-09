@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Avatar from 'react-avatar';
-import * as firebase from 'firebase';
+
 
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import { compose } from 'redux'
 import MessageContainer from '../MessageContainer/MessageContainer'
 import ListUser from '../ListUser/ListUser'
-import SendMessage from '../SendMessage/SendMessage';
 import Navbar from '../Navbar/Navbar';
-const HomeContainer = ({ users, arrInfo, appReducer }) => {
+
+
+const HomeContainer = ({ users, arrInfo, appReducer,ownProps }) => {
+    users.sort()
     const usersList = !isLoaded(users)
         ? 'Loading'
         : isEmpty(users)
@@ -31,7 +32,7 @@ const HomeContainer = ({ users, arrInfo, appReducer }) => {
                         <div className="people-list" id="people-list">
                             <div className="search">
                                 <input type="text" placeholder="search" />
-                                <i className="fa fa-search" />
+                                <i className="fa fa-search"  />
                             </div>
                             <ul className="list">
                                 {usersList}
@@ -40,21 +41,9 @@ const HomeContainer = ({ users, arrInfo, appReducer }) => {
                     </div>
                     <div style={{ float: "left" }}>
                         <div className="chat">
-                            <div className="chat-header clearfix">
-                                <div>
-                                    <Avatar size="70" src={arrInfo.arrInfo.image} />
-                                </div>
-                                <div className="chat-about">
-                                    <div className="chat-with">Chat with {arrInfo.arrInfo.username}</div>
-                                </div>
-                                <i className="fa fa-star" />
-                            </div> {/* end chat-header */}
-                            <div className="chat-history">
-                                <ul>
-                                    <MessageContainer />
-                                </ul>
-                            </div> {/* end chat-history */}
-                            <SendMessage />
+                            <MessageContainer/>
+
+                            
                         </div> {/* end chat */}
                     </div>
 
@@ -63,14 +52,17 @@ const HomeContainer = ({ users, arrInfo, appReducer }) => {
         </div>
     );
 }
-export default compose(
-    firebaseConnect([
-       
-        { path:  'Users/',queryParams: [ 'orderByPriority' ]}
-    ]),
-    connect((state) => ({
+const mapStateToProps = (state, ownProps) => {
+    return {
         users: state.firebase.data.Users,
         arrInfo: state.listUserReducer,
-        appReducer: state.appReducer
-    }))
+        appReducer: state.appReducer,
+        ownProps:ownProps
+    }
+}
+export default compose(
+    firebaseConnect([
+        { path:  'Users/'}
+    ]),
+    connect(mapStateToProps)
 )(HomeContainer)
