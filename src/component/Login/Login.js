@@ -92,7 +92,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     var userApp ={
                         username : username,
                         status : 'online',
-                        img : "https://www.drupal.org/files/issues/default-avatar.png"
+                        img : result.user.photoURL
                     }
                     ownProps.firebase.set(`Users/${username}`, userApp)
               }).catch(function(error) {
