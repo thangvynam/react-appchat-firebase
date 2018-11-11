@@ -1,17 +1,18 @@
-import loginReducer from '../reducers/loginReducer'
-import appReducer from '../reducers/appReducer'
-import listUserReducer from '../reducers/listUserReducer'
 import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase'
 import firebase from 'firebase'
 import { createStore, combineReducers, compose } from 'redux'
-//var redux = require("redux");
 
+import loginReducer from '../reducers/loginReducer'
+import appReducer from '../reducers/appReducer'
+import listUserReducer from '../reducers/listUserReducer'
+import searchReducer from '../reducers/searchReducer'
 
 const allReducers = combineReducers({
     loginReducer:loginReducer,
     appReducer:appReducer,
     firebase: firebaseReducer,
-    listUserReducer:listUserReducer
+    listUserReducer:listUserReducer,
+    searchReducer:searchReducer
     
 })
 const rrfConfig = {
