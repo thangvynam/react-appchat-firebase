@@ -6,13 +6,15 @@ import loginReducer from '../reducers/loginReducer'
 import appReducer from '../reducers/appReducer'
 import listUserReducer from '../reducers/listUserReducer'
 import searchReducer from '../reducers/searchReducer'
+import sendReducer from '../reducers/sendReducer'
 
 const allReducers = combineReducers({
     loginReducer:loginReducer,
     appReducer:appReducer,
     firebase: firebaseReducer,
     listUserReducer:listUserReducer,
-    searchReducer:searchReducer
+    searchReducer:searchReducer,
+    sendReducer:sendReducer
     
 })
 const rrfConfig = {

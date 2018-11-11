@@ -4,7 +4,6 @@ import { compose } from 'redux'
 import { firebaseConnect } from 'react-redux-firebase'
 
 import firebaseConnectCustomize from '../../firebase/firebaseConnect';
-import { CHECK_USER } from '../../contsants/actionType';
     
 class Navbar extends Component {
     constructor(props){

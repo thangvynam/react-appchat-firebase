@@ -51,10 +51,7 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo, star }) => {
                                         let message = value.substring(value.indexOf(":") + 1, value.lastIndexOf("-"))
                                         let time = value.substring(value.lastIndexOf("-") + 1, value.length)
                                         if (username === appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))) {
-                                            console.log(message)
-                                            console.log(imageExists(message))
                                             if(imageExists(message)){
-                                                //console.log(message)
                                                 messageListElement.push(
                                                     <li className="clearfix" style={{ listStyleType: "none" }}>
                                                         <div className="message-data align-right">
@@ -66,7 +63,6 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo, star }) => {
                                                         </div>
                                                     </li>)
                                             }else{
-                                                //console.log(message)
                                                 messageListElement.push(
                                                     <li className="clearfix" style={{ listStyleType: "none" }}>
                                                         <div className="message-data align-right">
@@ -140,6 +136,7 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo, star }) => {
                                             </ul>
                                         </div>
                                         <SendMessage />
+                                            {/* <Send/> */}
                                     </div>
                                 );
                             }

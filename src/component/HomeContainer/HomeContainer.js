@@ -32,9 +32,7 @@ const HomeContainer = ({ users, star, appReducer, searchReducer }) => {
     if (users != undefined || users != null) {
         Object.values(users).map( // list user
             (valueUsers, id) => {
-                arrUser.push(valueUsers);
-                //console.log(value.username)
-                //<ListUser key={id} username={value.username} status={value.status} image={value.img} />
+                return arrUser.push(valueUsers);
             }
         )
         let priority = 0;
