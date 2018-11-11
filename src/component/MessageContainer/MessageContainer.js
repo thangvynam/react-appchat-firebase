@@ -8,6 +8,34 @@ import SendMessage from '../SendMessage/SendMessage';
 const MessageContainer = ({ todos, firebase, appReducer, arrInfo, star }) => {
     const messageListElement = [];
     var arrComponent = [];
+    const imageExists = (image_url) =>{
+        let check = true;
+        try {
+            var http = new XMLHttpRequest();
+            http.open('HEAD', image_url, false);
+            http.send();
+            check = http.status != 404;
+        }
+        catch(err) {
+            let formatImage= image_url.substring(image_url.lastIndexOf(".")+1,image_url.length).toLowerCase();
+            check=false;
+            switch (formatImage) {
+                case "jpg":
+                    check=true;
+                    break;
+                case "tif":
+                    check=true;
+                    break;
+                case "png":
+                    check=true;
+                    break;
+                case "gif":
+                    check=true;
+                    break;
+            }
+        }
+        return check;
+    }
     const temp = !isLoaded(todos)
         ? 'Loading'
         : isEmpty(todos)
@@ -23,28 +51,59 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo, star }) => {
                                         let message = value.substring(value.indexOf(":") + 1, value.lastIndexOf("-"))
                                         let time = value.substring(value.lastIndexOf("-") + 1, value.length)
                                         if (username === appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))) {
-                                            messageListElement.push(
-                                                <li className="clearfix" style={{ listStyleType: "none" }}>
-                                                    <div className="message-data align-right">
-                                                        <span className="message-data-time">{time}</span> &nbsp; &nbsp;
-                                                    <span className="message-data-name">{username}</span> <i className="fa fa-circle me" />
-                                                    </div>
-                                                    <div className="message other-message float-right">
-                                                        {message}
-                                                    </div>
-                                                </li>)
+                                            console.log(message)
+                                            console.log(imageExists(message))
+                                            if(imageExists(message)){
+                                                //console.log(message)
+                                                messageListElement.push(
+                                                    <li className="clearfix" style={{ listStyleType: "none" }}>
+                                                        <div className="message-data align-right">
+                                                            <span className="message-data-time">{time}</span> &nbsp; &nbsp;
+                                                        <span className="message-data-name">{username}</span> <i className="fa fa-circle me" />
+                                                        </div>
+                                                        <div className="message other-message float-right">
+                                                           <img src={message} alt="nothing to show"/>
+                                                        </div>
+                                                    </li>)
+                                            }else{
+                                                //console.log(message)
+                                                messageListElement.push(
+                                                    <li className="clearfix" style={{ listStyleType: "none" }}>
+                                                        <div className="message-data align-right">
+                                                            <span className="message-data-time">{time}</span> &nbsp; &nbsp;
+                                                        <span className="message-data-name">{username}</span> <i className="fa fa-circle me" />
+                                                        </div>
+                                                        <div className="message other-message float-right">
+                                                            {message}
+                                                        </div>
+                                                    </li>)
+                                            }
                                         } else {
-                                            messageListElement.push(
-                                                <li className="clearfix " style={{ listStyleType: "none" }}>
-                                                    <div className="message-data">
-                                                        <span className="message-data-name"><i className="fa fa-circle online" /> {username}</span>
-                                                        <span className="message-data-time">{time}</span>
-                                                    </div>
-                                                    <div className="message my-message">
-                                                        {message}
-                                                    </div>
-                                                </li>
-                                            )
+                                            if(imageExists(message)){
+                                                messageListElement.push(
+                                                    <li className="clearfix " style={{ listStyleType: "none" }}>
+                                                        <div className="message-data">
+                                                            <span className="message-data-name"><i className="fa fa-circle online" /> {username}</span>
+                                                            <span className="message-data-time">{time}</span>
+                                                        </div>
+                                                        <div className="message my-message">
+                                                            <img src={message} alt="nothing to show"/>
+                                                        </div>
+                                                    </li>
+                                                )
+                                            }else{
+                                                messageListElement.push(
+                                                    <li className="clearfix " style={{ listStyleType: "none" }}>
+                                                        <div className="message-data">
+                                                            <span className="message-data-name"><i className="fa fa-circle online" /> {username}</span>
+                                                            <span className="message-data-time">{time}</span>
+                                                        </div>
+                                                        <div className="message my-message">
+                                                            {message}
+                                                        </div>
+                                                    </li>
+                                                )
+                                            }
                                         }
                                     });
                                 }
