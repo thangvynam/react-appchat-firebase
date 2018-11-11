@@ -54,15 +54,15 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo, star }) => {
                 })
 
     const MyStatelessComponent = () => {
+        let check = false
         if (star != undefined || star != null) {
             Object.keys(star).map(  // determine who you are
                 (valueStar, id) => {
                     if (valueStar === appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))) {
-                        let check = false
                         Object.entries(star[valueStar]).map(([key, value]) => {
                             if (arrInfo.arrInfo.username == value.username) {
                                 check = true;
-                                return arrComponent.push(
+                                 arrComponent.push(
                                     <div>
                                         <div className="chat-header clearfix">
                                             <div>
@@ -83,40 +83,37 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo, star }) => {
                                         <SendMessage />
                                     </div>
                                 );
-                            } else {
-
                             }
                         })
-                        if (!check)
-                            return arrComponent.push(
-                                <div>
-                                    <div className="chat-header clearfix">
-                                        <div>
-                                            <Avatar size="70" src={arrInfo.arrInfo.image} />
-                                        </div>
-                                        <div className="chat-about">
-                                            <div className="chat-with">Chat with {arrInfo.arrInfo.username}</div>
-                                        </div>
-                                        <i className="fa fa-star" style={{ cursor: "pointer" }} onClick={() => {
-                                            firebase.push(`Star/${appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))}`, { username: `${arrInfo.arrInfo.username}` })
-                                        }} />
-                                    </div>
-                                    <div className="chat-history">
-                                        <ul>
-                                            {messageListElement}
-                                        </ul>
-                                    </div>
-                                    <SendMessage />
-                                </div>
-                            );
                     }
-                    return <div></div>
                 })
+            if (!check) {
+                     arrComponent.push(
+                        <div>
+                            <div className="chat-header clearfix">
+                                <div>
+                                    <Avatar size="70" src={arrInfo.arrInfo.image} />
+                                </div>
+                                <div className="chat-about">
+                                    <div className="chat-with">Chat with {arrInfo.arrInfo.username}</div>
+                                </div>
+                                <i className="fa fa-star" style={{ cursor: "pointer" }} onClick={() => {
+                                    firebase.push(`Star/${appReducer.user.email.substring(0, appReducer.user.email.indexOf("@"))}`, { username: `${arrInfo.arrInfo.username}` })
+                                }} />
+                            </div>
+                            <div className="chat-history">
+                                <ul>
+                                    {messageListElement}
+                                </ul>
+                            </div>
+                            <SendMessage />
+                        </div>
+                    );
+            }
         }
         return <div></div>
     }
     if (arrInfo.arrInfo.username != undefined) {
-        console.log(arrComponent)
         return (
             <div>
                 <MyStatelessComponent />
