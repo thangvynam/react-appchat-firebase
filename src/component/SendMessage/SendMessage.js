@@ -34,12 +34,26 @@ const SendMessage = ({ firebase, appReducer, arrInfo, state, sendReducer }) => {
             console.warn(event.target.result);
         }
     }
+    const handleKeyPress = (event) =>{
+        if (event.key === 'Enter') {
+            if (sendReducer.message === '') {
+                ToastStore.error("You must type message :'(")
+            } else {
+                event.preventDefault();
+                let curTime = new Date().toLocaleString()
+                let editMessage = `${userFrom}:${sendReducer.message}-${curTime}*`
+                firebase.push(`Messagges/${userFrom}/${userTo}`, editMessage)
+                firebase.push(`Messagges/${userTo}/${userFrom}`, editMessage)
+                state.dispatch({ type: CLEAR_MESSAGE, message: '' })
+            }
+        }
+    }
 
     return (
 
         <div className="chat-message clearfix">
 
-            <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows={3} value={sendReducer.message} onChange={(event) => handleInputChange(event)} />
+            <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows={3} value={sendReducer.message} onChange={(event) => handleInputChange(event)} onKeyPress={(event) => handleKeyPress(event)}/>
             <button onClick={(event) => pushSample(event)} >Send</button>
             <ToastContainer store={ToastStore} />
             <input type="file" onChange={(event) => handleChange(event)} />
