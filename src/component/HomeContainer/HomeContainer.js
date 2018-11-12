@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-
+import { compose } from 'redux';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
-import { compose } from 'redux'
+
 import MessageContainer from '../MessageContainer/MessageContainer'
 import ListUser from '../ListUser/ListUser'
 import Navbar from '../Navbar/Navbar';

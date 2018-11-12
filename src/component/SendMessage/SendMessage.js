@@ -9,7 +9,6 @@ const SendMessage = ({ firebase, appReducer, arrInfo, state, sendReducer }) => {
     let userTo = arrInfo.arrInfo.username
     let message = ''
     let imageUrl = ''
-    console.log(sendReducer)
     const pushSample = (event) => {
         if (sendReducer.message === '') {
             ToastStore.error("You must type message :'(")

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+
 import Login from './component/Login/Login';
 import firebaseconnect from './firebase/firebaseConnect';
 import HomeContainer from './component/HomeContainer/HomeContainer';
@@ -10,15 +11,18 @@ class App extends Component {
 
   componentDidMount() {
     this.props.authListener();
+    //window.addEventListener("beforeunload", this.onUnload)
   }
+  // onUnload(event) { // the method that will be used for both add and remove event
+  //   console.log("sadas")
+  //   event.returnValue = "Hellooww"
+  // }
   render() {
-    
-    return ( 
-      (this.props.appReducer.user !=null ? <HomeContainer/> : <Login/>)
-    );
+    return (
+      this.props.appReducer.user != null ? <HomeContainer /> : <Login />
+    )
   }
 }
-
 const mapStateToProps = (state, ownProps) => {
   return {
     appReducer: state.appReducer,
@@ -27,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     authListener() {
-      
+
       firebaseconnect.auth().onAuthStateChanged((user) => {
         if (user) {
           dispatch({ type: CHECK_USER, user: user });
