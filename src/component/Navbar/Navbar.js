@@ -19,8 +19,8 @@ class Navbar extends Component {
         this.props.firebase.update(`Users/${this.props.username}`, { status: "online" })
         window.addEventListener("beforeunload", this.onUnload)
     }
-    onUnload(event) { // the method that will be used for both add and remove event
-        event.returnValue = "Hellooww"
+    onUnload(event) { 
+        event.returnValue = ""
         this.props.firebase.update(`Users/${this.props.username}`, { status: "offline" })
     }
     render() {
