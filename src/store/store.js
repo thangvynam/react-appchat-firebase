@@ -14,8 +14,7 @@ const allReducers = combineReducers({
     firebase: firebaseReducer,
     listUserReducer:listUserReducer,
     searchReducer:searchReducer,
-    sendReducer:sendReducer
-    
+    sendReducer:sendReducer,
 })
 const rrfConfig = {
     userProfile: 'users',
