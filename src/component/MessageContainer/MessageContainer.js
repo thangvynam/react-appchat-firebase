@@ -9,32 +9,32 @@ const MessageContainer = ({ todos, firebase, appReducer, arrInfo, star }) => {
     const messageListElement = [];
     var arrComponent = [];
     const imageExists = (image_url) => {
-        if(image_url === "")
+        if (image_url === "")
             return false;
-        let check = true;
+        let check = false;
         try {
             var http = new XMLHttpRequest();
-            http.open('HEAD', image_url, false);
-            http.send();
-            check = http.status != 404;
+            http.onreadystatechange = function() {
+                http.open('HEAD', image_url, false);
+                http.send();
+                check = http.status != 404;
+            }
+            let formatImage = image_url.substring(image_url.lastIndexOf(".") + 1, image_url.length).toLowerCase();
+            let prefix = image_url.substring(0,9)
+            if(formatImage.includes("jpg") || formatImage.includes("tif") ||formatImage.includes("png") ||formatImage.includes("gif")){
+                check = true;
+            }
+            if(prefix === "data:image"){
+                check = true;
+            }
         }
         catch (err) {
             let formatImage = image_url.substring(image_url.lastIndexOf(".") + 1, image_url.length).toLowerCase();
             check = false;
-            switch (formatImage) {
-                case "jpg":
-                    check = true;
-                    break;
-                case "tif":
-                    check = true;
-                    break;
-                case "png":
-                    check = true;
-                    break;
-                case "gif":
-                    check = true;
-                    break;
+            if(formatImage.includes("jpg") || formatImage.includes("tif") ||formatImage.includes("png") ||formatImage.includes("gif")){
+                check = true;
             }
+           
         }
         return check;
     }

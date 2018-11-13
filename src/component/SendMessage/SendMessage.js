@@ -58,11 +58,8 @@ const SendMessage = ({ firebase, appReducer, arrInfo, state, sendReducer }) => {
             }
         }
     }
-
     return (
-
         <div className="chat-message clearfix">
-
             <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows={3} value={sendReducer.message} onChange={(event) => handleInputChange(event)} onKeyPress={(event) => handleKeyPress(event)}/>
             <button onClick={(event) => pushSample(event)} >Send</button>
             <ToastContainer store={ToastStore} />
@@ -80,10 +77,7 @@ const SendMessage = ({ firebase, appReducer, arrInfo, state, sendReducer }) => {
                     </div>
                 </div>
         </div>
-
-
     )
-
 }
 export default compose(
     withFirebase,
