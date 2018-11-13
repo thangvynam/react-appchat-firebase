@@ -3,48 +3,64 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { firebaseConnect } from 'react-redux-firebase'
 import firebase from 'firebase';
+import { ToastContainer, ToastStore } from 'react-toasts';
 
 import firebaseConnectCustomize from '../../firebase/firebaseConnect';
-import {googleProvider} from '../../firebase/firebaseConnect';
-
-import './Login.css'
+import { googleProvider } from '../../firebase/firebaseConnect';
 
 class Login extends Component {
     constructor(props) {
-        super(props) 
+        super(props)
     }
     render() {
         return (
-            <div className="container">
-                <div id="login-row" className="row justify-content-center align-items-center">
-                    <div id="login-column" className="col-md-6">
-                        <div className="box">
-                            <div className="shape1" />
-                            <div className="shape2" />
-                            <div className="shape3" />
-                            <div className="shape4" />
-                            <div className="shape5" />
-                            <div className="shape6" />
-                            <div className="shape7" />
-                            <div className="float">
-                                <div className="form">
-                                    <div className="form-group">
-                                        <label htmlFor="email" className="text-white">Email:</label><br />
-                                        <input type="text" name="email" id="email" className="form-control" onChange={(event) => this.props.handleInputChangeEmail(event)} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="password" className="text-white">Password:</label><br />
-                                        <input type="text" name="password" id="password" className="form-control" onChange={(event) => this.props.handleInputChangePassword(event)} />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="submit" name="submit" className="btn btn-info btn-md" value="submit" onClick={this.props.login} />
-                                        
-                                        <input type="submit" name="submit1" className="btn btn-info btn-md" value="Google Login" onClick={this.props.googleLogin} style={{backgroundColor:"red"}}/>
-                                        
-                                    </div>
-                                </div>
+            <div className="limiter">
+                <div className="container-login100">
+                    <div className="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
+                        <form className="login100-form validate-form">
+                            <span className="login100-form-title p-b-55">
+                                Login
+                            </span>
+                            <div className="wrap-input100 validate-input m-b-16" data-validate="Valid email is required: ex@abc.xyz">
+                                <input className="input100" type="text" name="email" placeholder="Email" onChange={(event) => this.props.handleInputChangeEmail(event)} />
+                                <span className="focus-input100" />
+                                <span className="symbol-input100">
+                                    <span className="lnr lnr-envelope" />
+                                </span>
                             </div>
-                        </div>
+                            <div className="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                                <input className="input100" type="password" name="pass" placeholder="Password" onChange={(event) => this.props.handleInputChangePassword(event)} />
+                                <span className="focus-input100" />
+                                <span className="symbol-input100">
+                                    <span className="lnr lnr-lock" />
+                                </span>
+                            </div>
+                            <div className="container-login100-form-btn p-t-25">
+                                <button className="login100-form-btn" onClick={this.props.login}>
+                                    Login
+                                </button>
+                                <ToastContainer store={ToastStore} />
+                            </div>
+                            <div className="text-center w-full p-t-42 p-b-22">
+                                <span className="txt1">
+                                    Or login with
+                                </span>
+                            </div>
+                            <a className="btn-google m-b-10" onClick={this.props.googleLogin} style={{ cursor: "pointer", marginLeft: "5em" }}>
+                                <img src="images/icons/icon-google.png" alt="GOOGLE" />
+                                <span style={{ color: "red" }}>Google</span>
+                            </a>
+                            <div className="text-center w-full p-t-115">
+                                <span className="txt1">
+                                    Not a member?
+                                </span>
+                                <a className="txt1 bo1 hov1" onClick={this.props.signup}>
+                                    <span className="txt1" style={{cursor:"pointer"}}>
+                                        Sign up now
+                                    </span>
+                                </a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -64,19 +80,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         login: (event) => {
             event.preventDefault();
-            firebaseConnectCustomize.auth().signInWithEmailAndPassword(email,password)
-                .catch(function (error) {
-                    var errorMessage = error.message;
-                    console.log(errorMessage);
-                })
-                .then((user) => {  
-                   let username =user.user.email.substring(0, user.user.email.indexOf("@"))
-                    var userApp ={
-                        username : username,
-                        status : 'online',
-                        img : "https://www.drupal.org/files/issues/default-avatar.png"
+            firebaseConnectCustomize.auth().signInWithEmailAndPassword(email, password)
+                .then((user) => {
+                    let username = user.user.email.substring(0, user.user.email.indexOf("@"))
+                    var userApp = {
+                        username: username,
+                        status: 'online',
+                        img: "https://www.drupal.org/files/issues/default-avatar.png" // deafult image
                     }
                     ownProps.firebase.set(`Users/${username}`, userApp)
+                })
+                .catch(function (error) {
+                    var errorMessage = error.message;
+                    ToastStore.error(errorMessage)
                 })
         },
         handleInputChangeEmail: (event) => {
@@ -85,24 +101,26 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         handleInputChangePassword: (event) => {
             password = event.target.value;
         },
-        googleLogin:()=>{
-            
-            firebase.auth().signInWithPopup(googleProvider).then(function(result) {
-                let username =result.user.email.substring(0, result.user.email.indexOf("@"))
-                    var userApp ={
-                        username : username,
-                        status : 'online',
-                        img : result.user.photoURL
-                    }
-                    ownProps.firebase.set(`Users/${username}`, userApp)
-              }).catch(function(error) {
+        googleLogin: () => {
+            firebase.auth().signInWithPopup(googleProvider).then(function (result) {
+                let username = result.user.email.substring(0, result.user.email.indexOf("@"))
+                var userApp = {
+                    username: username,
+                    status: 'online',
+                    img: result.user.photoURL
+                }
+                ownProps.firebase.set(`Users/${username}`, userApp)
+            }).catch(function (error) {
                 var errorMessage = error.message;
                 console.log(errorMessage)
-              });
+            });
+        },
+        signup:()=>{
+            ToastStore.error("This feature is not set up");
         }
     }
 }
 export default compose(
-    firebaseConnect(), 
+    firebaseConnect(),
     connect(mapStateToProps, mapDispatchToProps))(Login)
 
